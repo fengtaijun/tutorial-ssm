@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+ 
+ xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+	<!-- default use in-memory mode -->
+	<jdbc:embedded-database id="h2db" type="H2">
+		<jdbc:script location="classpath*:resources/create.sql"/>
+		<jdbc:script location="classpath*:resources/data.sql" />
+	</jdbc:embedded-database>
+	
+	<!-- if you need physical database, and modify sqlSessionFactory's dataSource ref bean -->
+<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 		<property name="driverClassName" value="org.h2.Driver" /> -->
+<!-- 		<property name="url" value="jdbc:h2:~/h2db" /> -->
+<!-- 		<property name="username" value="sa" /> -->
+<!-- 		<property name="password" value="" /> -->
+<!-- 	</bean> -->
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="h2db" />
+		<property name="mapperLocations" value="classpath*:tutorial/mapper/*.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="tutorial.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<bean class="tutorial.demo.SpringMybatisDemo">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="userMapper" ref="userMapper" />
+	</bean>
+
+</beans>

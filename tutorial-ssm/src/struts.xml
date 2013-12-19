@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.objectFactory" value="spring" />
+
+	<package name="default" namespace="/struts" extends="struts-default">
+		<!-- Login demo -->
+		<action name="login">
+			<result>/jsp/sample01/login.jsp</result>
+		</action>
+
+		<action name="logincheck" class="tutorial.action.LoginAction">
+			<result name="input">/jsp/sample01/login.jsp</result>
+			<result name="error">/jsp/sample01/failure.jsp</result>
+			<result name="success">/jsp/sample01/success.jsp</result>
+		</action>
+
+		<!-- Login demo2 -->
+		<action name="login2">
+			<result>/jsp/sample01/login2.jsp</result>
+		</action>
+
+		<action name="logincheck2" class="tutorial.action.LoginAction2">
+			<result name="input">/jsp/sample01/login2.jsp</result>
+			<result name="error">/jsp/sample01/failure.jsp</result>
+			<result name="success">/jsp/sample01/success.jsp</result>
+		</action>
+	</package>
+
+	<include file="conf/struts-spring.xml" />
+
+</struts>
